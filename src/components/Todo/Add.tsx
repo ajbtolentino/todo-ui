@@ -1,9 +1,9 @@
-import { Grid, TextField, Button, Box, CircularProgress, LinearProgress } from "@mui/material";
+import { Grid, TextField, Button, Box, CircularProgress, LinearProgress, Card, CardContent } from "@mui/material";
 import React, { useState } from "react";
 import { useTodo } from "../../hooks/useTodo";
 
 export const Add = () => {
-    const { loading, addTask } = useTodo();
+    const { addTask } = useTodo();
     
     const [text, setText] = useState<string>('');
 
@@ -20,11 +20,20 @@ export const Add = () => {
     };
 
     return(
-        <form onSubmit={onFormSubmit}>
-            <TextField autoComplete="off" 
-                        value={text} 
-                        onChange={onChangeTextHandler} 
-                        label="Enter task" variant="standard"/>
-        </form>
+        <Box m={1/2}>
+            <Card sx={{width: 200}}>
+                <CardContent style={{textOverflow:"ellipsis"}} >
+                    <form onSubmit={onFormSubmit}>
+                        <TextField fullWidth 
+                                    autoComplete="off" 
+                                    size={"small"}
+                                    value={text} 
+                                    variant={"outlined"} 
+                                    placeholder="Enter task"
+                                    onChange={onChangeTextHandler} />
+                    </form>
+                </CardContent>
+            </Card>
+        </Box>
     );
 };

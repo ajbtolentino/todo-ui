@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
 import { ITodo } from "../../models/ITodo";
 import { TodoContext } from "./todoContext";
 
-const GET_URL: string = "https://b6g1.azurewebsites.net/Items/";
-const POST_URL: string = "https://b6g1.azurewebsites.net/Items/";
-const PUT_URL: string = "https://b6g1.azurewebsites.net/Items/";
-const DELETE_URL: string = "https://b6g1.azurewebsites.net/Items/";
+const GET_URL: string = "https://localhost:5001/api/Todo/";
+const POST_URL: string = "https://localhost:5001/api/Todo/";
+const PUT_URL: string = "https://localhost:5001/api/Todo/";
+const DELETE_URL: string = "https://localhost:5001/api/Todo/";
 
 interface IItemModel {
     id: number;
@@ -17,8 +16,6 @@ interface IItemModel {
 }
 
 export const TodoContextProvider: React.FC<{}> = (props) => {
-    const {token} = useAuth();
-
     const [tasks, setTasks] = useState<ITodo[]>([]);
     const [success, setSuccess] = useState<boolean | undefined>(false);
     const [loading, setLoading] = useState<boolean>(false);
@@ -40,11 +37,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             setLoading(true);
             setSuccess(undefined);
 
-            const response = await axios.get<IItemModel[]>(GET_URL,
-                {
-                    headers: {"Authorization": token}
-                }
-            );
+            const response = await axios.get<IItemModel[]>(GET_URL);
 
             const items: ITodo[] = response.data.map(d => {
                 return {
@@ -73,8 +66,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
                 },
                 {
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": token
+                        "Content-Type": "application/json"
                     }
                 }
             );
@@ -96,8 +88,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             await axios.delete(DELETE_URL+id,
                 {
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": token
+                        "Content-Type": "application/json"
                     }
                 }
             );
@@ -122,8 +113,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
                 },
                 {
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": token
+                        "Content-Type": "application/json"
                     }
                 }
             );

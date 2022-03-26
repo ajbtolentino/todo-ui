@@ -14,12 +14,16 @@ export const List = () => {
 
     return(<>
         {
-            tasks.length > 0 && tasks.map(p =>  <Details key={p.id} {...p} />)
+            tasks.length > 0 && tasks.map(p => <Box key={p.id} m={1/2}><Details {...p} /></Box>)
         }
         {
             !loading && !tasks.length && 
-            <Box sx={{height: "50vh"}}>
-                <Typography variant="h4">
+            <Box width={"1"} 
+                flexDirection={"column"} 
+                display={"flex"} 
+                justifyContent="center" 
+                height={"50vh"}>
+                <Typography variant="h4" textAlign={"center"}>
                     You don't have any tasks!
                 </Typography>
             </Box>
