@@ -50,7 +50,7 @@ export const Details = (props: ITodo) => {
     /** Update todo when user clicks away from input */
     const onClickAwayHandler = (e: MouseEvent | TouchEvent) => {
         //Only call update when component is in edit mode
-        if(editMode && text && props.text != text) updateTodo(props.id, text, completed, "");
+        if(editMode && text && props.text !== text) updateTodo(props.id, text, completed, "");
         //Revert to original when empty
         else if(!text.length) setText(props.text);
 
