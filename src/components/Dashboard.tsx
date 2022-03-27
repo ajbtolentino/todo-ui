@@ -5,9 +5,9 @@ export const Dashboard = () => {
     const {todos: tasks} = useTodo();
 
     return (
-        <Card style={{backgroundColor: "lightgoldenrodyellow"}}>
+        <Card className="card">
             <CardContent>
-                <Grid container direction={"row"} justifyContent={"space-around"}>
+                <Grid container className="grid">
                     <Grid item xs={4}>
                         <Typography>Total</Typography>
                         {tasks.length}

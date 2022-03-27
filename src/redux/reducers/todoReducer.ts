@@ -9,7 +9,7 @@ const initialState: TodoState = {
     todos: []
 };
 
-export const todoReducer = (state: TodoState = initialState, action: ActionTypes.TodoActionTypes) => {
+export const TodoReducer = (state: TodoState = initialState, action: ActionTypes.TodoActionTypes) => {
     switch(action.type) {
         case ActionTypes.ADD_TODO:
             const ids = state.todos.map(todo => todo.id);
@@ -23,15 +23,29 @@ export const todoReducer = (state: TodoState = initialState, action: ActionTypes
                     text: action.payload
                 }, ...state.todos]
             }
-        case ActionTypes.DELETE_TODO:
-            const updatedTodos = state.todos.filter(todo => todo.id !== action.payload)
+        case ActionTypes.UPDATE_TODO:
+            const updatedList = state.todos.map((todo: ITodo) => {
+                if(todo.id !== action.id) return todo;
+
+                return {
+                    ...todo,
+                    text: action.text
+                }
+            });
 
             return {
                 ...state,
-                todos: [...updatedTodos]
-            };
+                todos: [...updatedList]
+            }
+        case ActionTypes.DELETE_TODO:
+            const filteredList = state.todos.filter(todo => todo.id !== action.payload);
+
+            return {
+                ...state,
+                todos: [...filteredList]
+            }
         case ActionTypes.TOGGLE_COMPLETED:
-            const updatedList = state.todos.map(todo => {
+            const toggleList = state.todos.map(todo => {
                 if(todo.id !== action.payload) return todo;
 
                 return {
@@ -42,8 +56,8 @@ export const todoReducer = (state: TodoState = initialState, action: ActionTypes
 
             return {
                 ...state,
-                todos: [...updatedList]
-            };
+                todos: [...toggleList]
+            }
         default:
                 return state;
     }

@@ -1,9 +1,18 @@
+import { ITodo } from "../../models/ITodo";
 import * as ActionTypes from "./TodoActionTypes";
 
 export const AddTodoAction = (text: string) : ActionTypes.AddTodo => {
     return {
         type: ActionTypes.ADD_TODO,
         payload: text
+    }
+};
+
+export const UpdateTodoAction = (id: number, text: string) : ActionTypes.UpdateTodo => {
+    return {
+        type: ActionTypes.UPDATE_TODO,
+        id: id,
+        text: text
     }
 };
 

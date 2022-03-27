@@ -18,12 +18,21 @@
     text-align: center;
 }
 
+.dashboard .card {
+    background-color: lightgoldenrodyellow;
+}
+
+.dashboard .grid {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .list.container {
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.list > .todo {
+.list .todo {
     width: 250px;
     margin: 10px;
 }

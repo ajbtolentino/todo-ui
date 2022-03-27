@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { RootState } from "../redux/store/rootState"
+import { RootState } from "../redux/store/RootState"
 
 export const Sample = () => {
     const greeting = useSelector<RootState, string>(state => state.sample.greeting);

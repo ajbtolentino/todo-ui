@@ -1,5 +1,5 @@
-import { SampleState } from "../reducers/sampleReducer";
-import { TodoState } from "../reducers/todoReducer";
+import { SampleState } from "../reducers/SampleReducer";
+import { TodoState } from "../reducers/TodoReducer";
 
 export interface RootState {
     sample: SampleState;

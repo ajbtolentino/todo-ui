@@ -8,6 +8,6 @@ const initialState: SampleState = {
     greeting: "Hello world!"
 };
 
-export const sampleReducer = (state: SampleState = initialState, action: Action) => {
+export const SampleReducer = (state: SampleState = initialState, action: Action) => {
     return state;
 }

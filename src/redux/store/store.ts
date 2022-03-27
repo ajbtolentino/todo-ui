@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
-import { sampleReducer } from "../reducers/sampleReducer";
-import { todoReducer } from "../reducers/todoReducer";
-import { RootState } from "./rootState";
+import { sampleReducer } from "../reducers/SampleReducer";
+import { todoReducer } from "../reducers/TodoReducer";
+import { RootState } from "./RootState";
 
 const reducers = combineReducers<RootState>({
     sample: sampleReducer,

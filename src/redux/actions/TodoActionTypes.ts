@@ -2,12 +2,19 @@ import { Action } from "redux";
 import { ITodo } from "../../models/ITodo";
 
 export const ADD_TODO = "ADD_TODO";
+export const UPDATE_TODO = "UPDATE_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const TOGGLE_COMPLETED = "TOGGLE_COMPLETED";
 
 export interface AddTodo extends Action {
     type: typeof ADD_TODO;
     payload: string;
+};
+
+export interface UpdateTodo extends Action {
+    type: typeof UPDATE_TODO;
+    id: number;
+    text: string;
 };
 
 export interface DeleteTodo extends Action {
@@ -20,4 +27,4 @@ export interface ToggleCompleted extends Action {
     payload: number;
 }
 
-export type TodoActionTypes = AddTodo | DeleteTodo | ToggleCompleted;
+export type TodoActionTypes = AddTodo | UpdateTodo | DeleteTodo | ToggleCompleted;
