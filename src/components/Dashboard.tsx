@@ -10,7 +10,7 @@ export const Dashboard = () => {
                 <Grid container direction={"row"} justifyContent={"space-around"}>
                     <Grid item xs={4}>
                         <Typography>Total</Typography>
-                        {tasks.filter(_ => !_.completed).length}
+                        {tasks.length}
                     </Grid>
                     <Grid item xs={4}>
                         <Typography>Pending</Typography>
