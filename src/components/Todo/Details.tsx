@@ -50,7 +50,9 @@ export const Details = (props: ITodo) => {
     /** Update todo when user clicks away from input */
     const onClickAwayHandler = (e: MouseEvent | TouchEvent) => {
         //Only call update when component is in edit mode
-        if(editMode) updateTodo!(props.id, text, completed, "");
+        if(editMode && text && props.text != text) updateTodo(props.id, text, completed, "");
+        //Revert to original when empty
+        else if(!text.length) setText(props.text);
 
         //Always set edit mode to false when user clicks away from the text box
         setEditMode(false);
@@ -58,12 +60,12 @@ export const Details = (props: ITodo) => {
 
     /** Update todo when user clicks on the complete/pending button */
     const onToggleComplete = (e: React.MouseEvent<HTMLButtonElement>) => {
-        updateTodo!(props.id, text, !completed, "");
+        updateTodo(props.id, text, !completed, "");
     };
 
     /** Delete todo when user clicks on the delete button */
     const onDeleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        deleteTodo!(props.id);
+        deleteTodo(props.id);
     };
 
     return (
@@ -77,7 +79,7 @@ export const Details = (props: ITodo) => {
                     !editMode && 
                     <Typography className="textLabel" 
                                 onClick={onToggleEdit}> 
-                        {props.text}
+                        {text}
                     </Typography>
                 }
                 {
@@ -90,7 +92,6 @@ export const Details = (props: ITodo) => {
                                 className="textInput"
                                 autoComplete="off"
                                 value={text} 
-                                size={"small"}
                                 placeholder={"Enter task"} 
                                 onChange={onChangeTextHandler}/>
                     </ClickAwayListener>

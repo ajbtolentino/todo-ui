@@ -37,11 +37,15 @@
 }
 
 .todo .textLabel {
+    min-height: 25px;
+    margin-top: 1px;
     overflow-wrap: break-word;
     white-space: pre-line;
 }
 
 .todo .textInput {
+    padding-top: 1px;
+    line-height: 1.5;
     padding-bottom: 0;
 }
 

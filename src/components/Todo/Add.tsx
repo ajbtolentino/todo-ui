@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useTodo } from "../../hooks/useTodo";
 
 export const Add = () => {
-    const { getTodos: getTasks, addTodo: addTask } = useTodo();
+    const { addTodo: addTask } = useTodo();
     
     const [text, setText] = useState<string>('');
 
@@ -14,7 +14,7 @@ export const Add = () => {
     const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(text && addTask) addTask(text).then(() => getTasks!());
+        addTask(text);
 
         setText("");
     };
