@@ -3,12 +3,7 @@ import { useTodo } from "../../hooks/useTodo";
 import { Details } from "./Details";
 
 export const List = () => {
-    const { getTodos, todos, loading } = useTodo();
-
-    /** Load todos when component loads */
-    useEffect(() => {
-        getTodos!();
-    }, []);
+    const { todos } = useTodo();
 
     return(
     <>
@@ -22,7 +17,7 @@ export const List = () => {
         }
         {
             /** Show an empty message */
-            !loading && !todos.length && <h2 style={{textAlign: "center"}}>You don't have any tasks!</h2>
+            !todos.length && <h2 style={{textAlign: "center"}}>You don't have any tasks!</h2>
         }
     </>
     );

@@ -5,7 +5,7 @@ import { Add } from "./Todo/Add";
 import { List } from "./Todo/List";
 
 export const Todo = () => {
-    const {loading} = useTodo();
+    // const {loading} = useTodo();
 
     return (
     <>
@@ -22,14 +22,5 @@ export const Todo = () => {
         <div className="list container">
             <List />
         </div>
-        {
-            /** Loading indicator */
-            loading &&
-            <div className="loading container">
-                <div className="wrapper">
-                    <CircularProgress />
-                </div>
-            </div>
-        }
     </>);
 };

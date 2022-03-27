@@ -15,7 +15,7 @@ import { useTodo } from "../../hooks/useTodo";
 import { ITodo } from "../../models/ITodo";
 
 export const Details = (props: ITodo) => {
-    const { deleteTodo, updateTodo } = useTodo();
+    const { deleteTodo, updateTodo, toggleCompleted } = useTodo();
     
     /** Todo states */
     const [text, setText] = useState<string>(props.text);
@@ -60,7 +60,7 @@ export const Details = (props: ITodo) => {
 
     /** Update todo when user clicks on the complete/pending button */
     const onToggleComplete = (e: React.MouseEvent<HTMLButtonElement>) => {
-        updateTodo(props.id, text, !completed, "");
+        toggleCompleted(props.id);
     };
 
     /** Delete todo when user clicks on the delete button */
