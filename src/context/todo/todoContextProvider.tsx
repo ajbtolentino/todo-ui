@@ -5,37 +5,30 @@ import { TodoContext } from "./todoContext";
 
 const GET_URL: string = "https://localhost:5001/api/Todo/";
 const POST_URL: string = "https://localhost:5001/api/Todo/";
-const PUT_URL: string = "https://localhost:5001/api/Todo/";
-const DELETE_URL: string = "https://localhost:5001/api/Todo/";
+const PUT_URL = (id: number): string => `https://localhost:5001/api/Todo/${id}`;
+const DELETE_URL = (id: number): string => `https://localhost:5001/api/Todo/${id}`;
 
 interface IItemModel {
     id: number;
     text: string;
+    completed: boolean;
     createdBy: string;
     dateCreated: Date;
 }
 
 export const TodoContextProvider: React.FC<{}> = (props) => {
     const [tasks, setTasks] = useState<ITodo[]>([]);
-    const [success, setSuccess] = useState<boolean | undefined>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
 
     const handleError = (err: any) => {
-        if(err.response?.data[""]){
-            setErrors(err.response?.data[""]);
-        }
-        else if(err.response.data.errors)
-            setErrors(err.response?.data?.errors);
-        else
-            setErrors(["Something went wrong. Please try again."]);
+        setErrors(["Something went wrong. Please try again."]);
     };
 
     const getTasks = async () => {
         try {
             setErrors([]);
             setLoading(true);
-            setSuccess(undefined);
 
             const response = await axios.get<IItemModel[]>(GET_URL);
 
@@ -43,14 +36,14 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
                 return {
                     id: d.id,
                     text: d.text,
-                    completed: false
+                    completed: d.completed
                 };});
 
             setTasks([...items]);
         } catch (err: any) {
             handleError(err);
         } finally {
-            setLoading(false);
+            setTimeout(() => setLoading(false), 5000);
         }
     };
 
@@ -58,24 +51,15 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
         try {
             setErrors([]);
             setLoading(true);
-            setSuccess(undefined);
 
-            await axios.post(POST_URL,
-                {
-                    "text": text
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-
-            await getTasks();
+            await axios.post(POST_URL, { "text": text },
+            {
+                headers: { "Content-Type": "application/json" }
+            });
         } catch (err: any) {
             handleError(err);
         } finally {
-            setLoading(false);
+            setTimeout(() => setLoading(false), 5000);
         }
     };
 
@@ -83,46 +67,39 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
         try {
             setErrors([]);
             setLoading(true);
-            setSuccess(undefined);
 
-            await axios.delete(DELETE_URL+id,
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-
-            await getTasks();
+            await axios.delete(DELETE_URL(id),
+            {
+                headers: { "Content-Type": "application/json" }
+            });
         } catch (err: any) {
             handleError(err);
         } finally {
-            setLoading(false);
+            setTimeout(() => setLoading(false), 5000);
         }
     };
 
-    const updateTask = async (id: number, text: string) => {
+    const updateTask = async (id: number, 
+                              text: string, 
+                              completed: boolean,
+                              category: string) => {
         try {
             setErrors([]);
             setLoading(true);
-            setSuccess(undefined);
 
-            await axios.put(PUT_URL+id,
-                {
-                    "text": text
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-
-            await getTasks();
+            await axios.put(PUT_URL(id), 
+            {
+                "text": text, 
+                "completed":  completed,
+                "category": category
+            },
+            {
+                headers: { "Content-Type": "application/json" }
+            });
         } catch (err: any) {
             handleError(err);
         } finally {
-            setLoading(false);
+            setTimeout(() => setLoading(false), 5000);
         }
     };
 
@@ -142,14 +119,13 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
     return(
         <TodoContext.Provider
             value={{
-                tasks: tasks,
-                success: success,
+                todos: tasks,
                 loading: loading,
                 errors: errors,
-                getTasks: getTasks,
-                addTask: addTask,
-                deleteTask: deleteTask,
-                updateTask: updateTask,
+                getTodos: getTasks,
+                addTodo: addTask,
+                deleteTodo: deleteTask,
+                updateTodo: updateTask,
                 toggleCompleted: toggleCompleted
             }}>
                 {props.children}

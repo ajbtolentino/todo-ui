@@ -1,33 +1,31 @@
-import { CircularProgress, Grow, LinearProgress, Typography, Zoom } from "@mui/material";
+import { Container } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect } from "react";
-import { TransitionGroup } from "react-transition-group";
 import { useTodo } from "../../hooks/useTodo";
 import { Details } from "./Details";
 
 export const List = () => {
-    const { tasks, loading, getTasks } = useTodo()
+    const { todos, loading, getTodos } = useTodo()
 
     useEffect(() => {
-        getTasks!();
-    }, [])
+        if(getTodos) getTodos();
+    }, []);
 
-    return(<>
+    return(
+    <>
         {
-            tasks.length > 0 && tasks.map(p => <Box key={p.id} m={1/2}><Details {...p} /></Box>)
+            /** Load all tasks if there are any */
+            todos.length > 0 && 
+            todos.map(todo => 
+                <Box key={todo.id} style={{width: 250, margin: 10}}>
+                    <Details {...todo} />
+                </Box>)
         }
         {
-            !loading && !tasks.length && 
-            <Box width={"1"} 
-                flexDirection={"column"} 
-                display={"flex"} 
-                justifyContent="center" 
-                height={"50vh"}>
-                <Typography variant="h4" textAlign={"center"}>
-                    You don't have any tasks!
-                </Typography>
-            </Box>
+            /** Show an empty message */
+            !loading && !todos.length && 
+            <h2 style={{textAlign: "center"}}>You don't have any tasks!</h2>
         }
-        {loading && <Box m={2} sx={{width: 1}} textAlign={"center"}><CircularProgress /></Box>}
-    </>);
+    </>
+    );
 };

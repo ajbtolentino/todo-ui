@@ -1,7 +1,7 @@
 import { useTodo } from "../hooks/useTodo";
 
 export const Dashboard = () => {
-    const {tasks} = useTodo();
+    const {todos: tasks} = useTodo();
 
     return (
         <div>
