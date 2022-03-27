@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ITodo } from "../../models/ITodo";
 import { TodoContext } from "./todoContext";
 
@@ -8,7 +8,7 @@ const POST_URL: string = "https://localhost:5001/api/Todo/";
 const PUT_URL = (id: number): string => `https://localhost:5001/api/Todo/${id}`;
 const DELETE_URL = (id: number): string => `https://localhost:5001/api/Todo/${id}`;
 
-interface IItemModel {
+interface ITodoModel {
     id: number;
     text: string;
     completed: boolean;
@@ -17,7 +17,7 @@ interface IItemModel {
 }
 
 export const TodoContextProvider: React.FC<{}> = (props) => {
-    const [tasks, setTasks] = useState<ITodo[]>([]);
+    const [todos, setTodos] = useState<ITodo[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
 
@@ -25,12 +25,12 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
         setErrors(["Something went wrong. Please try again."]);
     };
 
-    const getTasks = async () => {
+    const getTodos = async () => {
         try {
             setErrors([]);
             setLoading(true);
 
-            const response = await axios.get<IItemModel[]>(GET_URL);
+            const response = await axios.get<ITodoModel[]>(GET_URL);
 
             const items: ITodo[] = response.data.map(d => {
                 return {
@@ -39,7 +39,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
                     completed: d.completed
                 };});
 
-            setTasks([...items]);
+            setTodos([...items]);
         } catch (err: any) {
             handleError(err);
         } finally {
@@ -47,7 +47,7 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
         }
     };
 
-    const addTask = async (text: string) => {
+    const addTodo = async (text: string) => {
         try {
             setErrors([]);
             setLoading(true);
@@ -60,10 +60,12 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             handleError(err);
         } finally {
             setTimeout(() => setLoading(false), 5000);
+
+            await getTodos!();
         }
     };
 
-    const deleteTask = async (id: number) => {
+    const deleteTodo = async (id: number) => {
         try {
             setErrors([]);
             setLoading(true);
@@ -76,10 +78,12 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             handleError(err);
         } finally {
             setTimeout(() => setLoading(false), 5000);
+
+            await getTodos!();
         }
     };
 
-    const updateTask = async (id: number, 
+    const updateTodo = async (id: number, 
                               text: string, 
                               completed: boolean,
                               category: string) => {
@@ -100,11 +104,13 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             handleError(err);
         } finally {
             setTimeout(() => setLoading(false), 5000);
+
+            await getTodos!();
         }
     };
 
     const toggleCompleted = (id: number) => {
-        const updatedTasks = tasks.map(task => {
+        const updatedTasks = todos.map(task => {
             if(task.id !== id) return task;
 
             return {
@@ -113,19 +119,19 @@ export const TodoContextProvider: React.FC<{}> = (props) => {
             };
         });
 
-        setTasks([...updatedTasks]);
+        setTodos([...updatedTasks]);
     };
       
     return(
         <TodoContext.Provider
             value={{
-                todos: tasks,
+                todos: todos,
                 loading: loading,
                 errors: errors,
-                getTodos: getTasks,
-                addTodo: addTask,
-                deleteTodo: deleteTask,
-                updateTodo: updateTask,
+                getTodos: getTodos,
+                addTodo: addTodo,
+                deleteTodo: deleteTodo,
+                updateTodo: updateTodo,
                 toggleCompleted: toggleCompleted
             }}>
                 {props.children}

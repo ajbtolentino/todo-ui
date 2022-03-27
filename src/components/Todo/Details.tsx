@@ -1,13 +1,21 @@
-import { Card, CardActions, CardContent, Typography, TextField, ClickAwayListener, IconButton, Grow, Fade, Collapse, InputBase } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useTodo } from "../../hooks/useTodo";
-import { ITodo } from "../../models/ITodo";
+import { Card, 
+        CardActions, 
+        CardContent, 
+        Typography,
+        ClickAwayListener, 
+        IconButton, 
+        Grow, 
+        Fade, 
+        InputBase } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutlined';
+import { useTodo } from "../../hooks/useTodo";
+import { ITodo } from "../../models/ITodo";
 
 export const Details = (props: ITodo) => {
-    const { getTodos, deleteTodo, updateTodo } = useTodo();
+    const { deleteTodo, updateTodo } = useTodo();
     
     /** Todo states */
     const [text, setText] = useState<string>(props.text);
@@ -17,35 +25,21 @@ export const Details = (props: ITodo) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [showOtherActions, setShowOtherActions] = useState<boolean>(false);
 
+    /** Make sure that the component's states are up-to-date */
     useEffect(() => {
-        updateTodo!(props.id, text, completed, "");
-    }, [completed]);
+        setText(props.text);
+        setCompleted(props.completed);
+    }, [props.completed, props.text]);
 
     /** Update state of text based on user input */
     const onChangeTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
     };
 
-    /** Update todo when user clicks away from input */
-    const onClickAwayHandler = (e: MouseEvent | TouchEvent) => {
-        updateTodo!(props.id, text, completed, "");
-        setEditMode(false);
-    };
-
     /** Toggle edit mode when user clicks on the component */
     const onToggleEdit = (e: React.MouseEvent<HTMLSpanElement>) => {
         setEditMode(!editMode);
-    }
-
-    /** Toggle completed state when user clicks on the complete/pending button */
-    const onToggleComplete = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setCompleted(!completed);
-    }
-
-    /** Delete todo when user clicks on the delete button */
-    const onDeleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        deleteTodo!(props.id).then(() => getTodos!());
-    }
+    };
 
     /** Show or hide the card action buttons */
     const handleMouseEvent = (action: "showButtons" | "hideButtons") => 
@@ -53,16 +47,35 @@ export const Details = (props: ITodo) => {
         setShowOtherActions(action === "showButtons");
     };
 
+    /** Update todo when user clicks away from input */
+    const onClickAwayHandler = (e: MouseEvent | TouchEvent) => {
+        //Only call update when component is in edit mode
+        if(editMode) updateTodo!(props.id, text, completed, "");
+
+        //Always set edit mode to false when user clicks away from the text box
+        setEditMode(false);
+    };
+
+    /** Update todo when user clicks on the complete/pending button */
+    const onToggleComplete = (e: React.MouseEvent<HTMLButtonElement>) => {
+        updateTodo!(props.id, text, !completed, "");
+    };
+
+    /** Delete todo when user clicks on the delete button */
+    const onDeleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+        deleteTodo!(props.id);
+    };
+
     return (
         <Grow in={true} timeout={500}>
-            <Card style={{backgroundColor: completed ? "mediumaquamarine" : "khaki"}}
+            <Card className={completed ? "completed" : "pending"}
                 onMouseOver={handleMouseEvent("showButtons")} 
                 onMouseLeave={handleMouseEvent("hideButtons")}>
                 <CardContent>
                 {
                     /** Show label if state is readonly */
                     !editMode && 
-                    <Typography style={{overflowWrap: "anywhere", whiteSpace: "pre-line"}} 
+                    <Typography className="textLabel" 
                                 onClick={onToggleEdit}> 
                         {props.text}
                     </Typography>
@@ -74,9 +87,7 @@ export const Details = (props: ITodo) => {
                         <InputBase autoFocus 
                                 multiline 
                                 fullWidth
-                                style={{
-                                    paddingBottom: 0
-                                }}
+                                className="textInput"
                                 autoComplete="off"
                                 value={text} 
                                 size={"small"}
@@ -85,8 +96,8 @@ export const Details = (props: ITodo) => {
                     </ClickAwayListener>
                 }
                 </CardContent>
-                <Fade in={showOtherActions}>
-                    <CardActions style={{justifyContent: "space-between"}}>
+                <Fade in={showOtherActions && !editMode}>
+                    <CardActions className="actions">
                         <IconButton size="small" onClick={onToggleComplete} >
                             {completed ? <LibraryAddCheckIcon /> : <LibraryAddCheckOutlinedIcon />}
                         </IconButton>

@@ -1,38 +1,35 @@
-import { Box, CircularProgress, Container } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { useTodo } from "../hooks/useTodo";
 import { Dashboard } from "./Dashboard";
 import { Add } from "./Todo/Add";
 import { List } from "./Todo/List";
 
 export const Todo = () => {
-    const { loading } = useTodo();
+    const {loading} = useTodo();
 
     return (
     <>
-        <Container style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <Box m={1} width={1/2} textAlign={"center"}>
+        <div className="dashboard container">
+            <div className="wrapper">
                 <Dashboard />
-            </Box>
-        </Container>
-        <Container style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <Box m={1} width={1/2} textAlign={"center"}>
+            </div>
+        </div>
+        <div className="add container">
+            <div className="wrapper">
                 <Add/>
-            </Box>
-        </Container>
-        <Container style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+            </div>
+        </div>
+        <div className="list container">
             <List />
-        </Container>
+        </div>
         {
             /** Loading indicator */
             loading &&
-            <Box width={1} 
-                margin={1}
-                flexDirection={"column"} 
-                display={"flex"} 
-                alignItems="center"
-                justifyContent={"center"}>
-                <CircularProgress />
-            </Box>
+            <div className="loading container">
+                <div className="wrapper">
+                    <CircularProgress />
+                </div>
+            </div>
         }
     </>);
 };
