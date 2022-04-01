@@ -22,7 +22,6 @@ export const Details = (props: ITodo) => {
     const [completed, setCompleted] = useState<boolean>(props.completed);
 
     /** UI states */
-    const [editMode, setEditMode] = useState<boolean>(false);
     const [showOtherActions, setShowOtherActions] = useState<boolean>(false);
 
     /** Make sure that the component's states are up-to-date */
@@ -31,41 +30,18 @@ export const Details = (props: ITodo) => {
         setCompleted(props.completed);
     }, [props.completed, props.text]);
 
-    /** Update state of text based on user input */
-    const onChangeTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setText(e.target.value);
-    };
-
-    /** Toggle edit mode when user clicks on the component */
-    const onToggleEdit = (e: React.MouseEvent<HTMLSpanElement>) => {
-        setEditMode(!editMode);
-    };
-
     /** Show or hide the card action buttons */
-    const handleMouseEvent = (action: "showButtons" | "hideButtons") => 
-                             (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseEvent = (action: "showButtons" | "hideButtons") => () => {
         setShowOtherActions(action === "showButtons");
     };
 
-    /** Update todo when user clicks away from input */
-    const onClickAwayHandler = (e: MouseEvent | TouchEvent) => {
-        //Only call update when component is in edit mode
-        if(editMode && text && props.text !== text) 
-            updateTodo(props.id, text);
-        //Revert to original when empty
-        else if(!text.length) setText(props.text);
-
-        //Always set edit mode to false when user clicks away from the text box
-        setEditMode(false);
-    };
-
     /** Update todo when user clicks on the complete/pending button */
-    const onToggleComplete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const onToggleComplete = () => {
         toggleCompleted(props.id);
     };
 
     /** Delete todo when user clicks on the delete button */
-    const onDeleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const onDeleteHandler = () => {
         deleteTodo(props.id);
     };
 
@@ -75,30 +51,11 @@ export const Details = (props: ITodo) => {
                 onMouseOver={handleMouseEvent("showButtons")} 
                 onMouseLeave={handleMouseEvent("hideButtons")}>
                 <CardContent>
-                {
-                    /** Show label if state is readonly */
-                    !editMode && 
-                    <Typography className="textLabel" 
-                                onClick={onToggleEdit}> 
+                    <Typography className="textLabel"> 
                         {text}
                     </Typography>
-                }
-                {
-                    /** Show text field if state is editable */
-                    editMode &&
-                    <ClickAwayListener onClickAway={onClickAwayHandler}>
-                        <InputBase autoFocus 
-                                multiline 
-                                fullWidth
-                                className="textInput"
-                                autoComplete="off"
-                                value={text} 
-                                placeholder={"Enter task"} 
-                                onChange={onChangeTextHandler}/>
-                    </ClickAwayListener>
-                }
                 </CardContent>
-                <Fade in={showOtherActions && !editMode}>
+                <Fade in={showOtherActions}>
                     <CardActions className="actions">
                         <IconButton size="small" onClick={onToggleComplete} >
                             {completed ? <LibraryAddCheckIcon /> : <LibraryAddCheckOutlinedIcon />}

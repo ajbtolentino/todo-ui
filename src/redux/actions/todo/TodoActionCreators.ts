@@ -1,31 +1,30 @@
 import { ITodo } from "../../../models/ITodo";
-import * as ActionTypes from "./TodoActionTypes";
+import { AddTodo, ADD_TODO, DeleteTodo, DELETE_TODO, ToggleCompleted, TOGGLE_COMPLETED, UpdateTodo, UPDATE_TODO } from "./TodoActionTypes";
 
-export const AddTodoAction = (text: string) : ActionTypes.AddTodo => {
+export const AddTodoAction = (text: string) : AddTodo => {
     return {
-        type: ActionTypes.ADD_TODO,
+        type: "ADD_TODO",
         payload: text
     }
 };
 
-export const UpdateTodoAction = (id: number, text: string) : ActionTypes.UpdateTodo => {
+export const UpdateTodoAction = (todo: ITodo) : UpdateTodo => {
     return {
-        type: ActionTypes.UPDATE_TODO,
-        id: id,
-        text: text
+        type: UPDATE_TODO,
+        payload: todo
     }
 };
 
-export const DeleteTodoAction = (id: number) : ActionTypes.DeleteTodo => {
+export const DeleteTodoAction = (id: number) : DeleteTodo => {
     return {
-        type: ActionTypes.DELETE_TODO,
+        type: DELETE_TODO,
         payload: id
     }
 };
 
-export const ToggleCompletedAction = (id: number) : ActionTypes.ToggleCompleted => {
+export const ToggleCompletedAction = (id: number) : ToggleCompleted => {
     return {
-        type: ActionTypes.TOGGLE_COMPLETED,
+        type: TOGGLE_COMPLETED,
         payload: id
     }
 };

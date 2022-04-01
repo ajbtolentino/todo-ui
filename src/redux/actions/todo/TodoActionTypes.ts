@@ -7,14 +7,13 @@ export const DELETE_TODO = "DELETE_TODO";
 export const TOGGLE_COMPLETED = "TOGGLE_COMPLETED";
 
 export interface AddTodo extends Action {
-    type: typeof ADD_TODO;
+    type: "ADD_TODO";
     payload: string;
 };
 
 export interface UpdateTodo extends Action {
     type: typeof UPDATE_TODO;
-    id: number;
-    text: string;
+    payload: ITodo;
 };
 
 export interface DeleteTodo extends Action {
@@ -27,4 +26,4 @@ export interface ToggleCompleted extends Action {
     payload: number;
 }
 
-export type TodoActionTypes = AddTodo | UpdateTodo | DeleteTodo | ToggleCompleted;
+// export type TodoActionTypes = AddTodo | UpdateTodo | DeleteTodo | ToggleCompleted;
