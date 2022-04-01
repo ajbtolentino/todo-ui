@@ -2,6 +2,7 @@
     display: flex;
 }
 
+.login.container,
 .dashboard.container, 
 .add.container,
 .loading.container {
@@ -16,6 +17,15 @@
     width: 50%;
     margin: 10px;
     text-align: center;
+}
+
+.login.container {
+  min-width: 400px;
+  min-height: 100vh;
+}
+
+.login .wrapper {
+  width: 400px;
 }
 
 .dashboard .card {

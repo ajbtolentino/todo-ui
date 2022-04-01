@@ -1,4 +1,4 @@
-import { ITodo } from "../../models/ITodo";
+import { ITodo } from "../../../models/ITodo";
 import * as ActionTypes from "./TodoActionTypes";
 
 export const AddTodoAction = (text: string) : ActionTypes.AddTodo => {

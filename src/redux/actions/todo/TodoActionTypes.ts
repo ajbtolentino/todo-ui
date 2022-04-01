@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { ITodo } from "../../models/ITodo";
+import { ITodo } from "../../../models/ITodo";
 
 export const ADD_TODO = "ADD_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";

@@ -1,5 +1,5 @@
 import { ITodo } from "../../models/ITodo"
-import * as ActionTypes from "../actions/TodoActionTypes";
+import * as ActionTypes from "../actions/todo/TodoActionTypes";
 
 export interface TodoState {
     todos: ITodo[];

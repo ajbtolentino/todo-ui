@@ -5,8 +5,6 @@ import { Add } from "./Todo/Add";
 import { List } from "./Todo/List";
 
 export const Todo = () => {
-    // const {loading} = useTodo();
-
     return (
     <>
         <div className="dashboard container">
