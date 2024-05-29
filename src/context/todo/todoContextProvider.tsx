@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { ITodo } from "../../models/ITodo";
 import { TodoContext } from "./todoContext";
 
-const {TODO_API_URL} = process.env;
+const {REACT_APP_TODO_API_URL} = process.env;
 console.log(process.env);
-const GET_URL: string = `${TODO_API_URL}/api/Todo/`;
-const POST_URL: string = `${TODO_API_URL}/api/Todo/`;
-const PUT_URL = (id: number): string => `${TODO_API_URL}/api/Todo/${id}`;
-const DELETE_URL = (id: number): string => `${TODO_API_URL}/api/Todo/${id}`;
+const GET_URL: string = `${REACT_APP_TODO_API_URL}/api/Todo/`;
+const POST_URL: string = `${REACT_APP_TODO_API_URL}/api/Todo/`;
+const PUT_URL = (id: number): string => `${REACT_APP_TODO_API_URL}/api/Todo/${id}`;
+const DELETE_URL = (id: number): string => `${REACT_APP_TODO_API_URL}/api/Todo/${id}`;
 
 interface ITodoModel {
     id: number;
